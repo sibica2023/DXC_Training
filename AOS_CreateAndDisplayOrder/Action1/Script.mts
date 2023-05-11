@@ -42,6 +42,7 @@ For intcurrentRow = 2 to Environment.Value("AllRows")
 
 Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
 Call AOS_Logoff ()
+Call AddProductToCart (GetColValue("DT_Quantity"))
 
 Next
 
@@ -106,6 +107,42 @@ Function AOS_Logoff ()
 		'Close Browser
 		Browser("Advantage Shopping").Close
 End Function
+
+Function AddProductToCart (varQuantity)
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("TabletsCategory").Click
+		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("Item_Amount").Click @@ script infofile_;_ZIP::ssf18.xml_;_
+		Wait (3)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("rabbit").Click @@ script infofile_;_ZIP::ssf19.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("quantity").Set varQuantity @@ script infofile_;_ZIP::ssf20.xml_;_
+		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("save_to_cart").Click	
+End Function
+
+Function CheckoutAndRetrieveOrderNumber ()
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("ShoppingCart").Click
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("check_out_btn").Click @@ script infofile_;_ZIP::ssf23.xml_;_
+		Wait (3)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("next_btn").Click @@ script infofile_;_ZIP::ssf24.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("1. SHIPPING DETAILS 2.").Click @@ script infofile_;_ZIP::ssf25.xml_;_
+		
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("safepay_password").SetSecure "645c859c681c2d22c20e49c3218a08e5" @@ script infofile_;_ZIP::ssf26.xml_;_
+		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("pay_now_btn_SAFEPAY").Click @@ script infofile_;_ZIP::ssf27.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("Thank you for buying with").Check CheckPoint("Thank you for buying with Advantage")
+		VarOrderNumber = Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("orderNumberLabel").GetROProperty ("innertext")
+		CheckoutAndRetrieveOrderNumber = VarOrderNumber
+		
+		
+
+End Function
+
+ @@ script infofile_;_ZIP::ssf21.xml_;_
+
+
+
+
+
 
 
 		
