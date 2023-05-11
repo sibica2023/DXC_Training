@@ -41,7 +41,7 @@ Environment.Value("AllRows") = xlSheet.UsedRange.Rows.Count
 For intcurrentRow = 2 to Environment.Value("AllRows")
 	Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
 	Call AddProductToCart (GetColValue("DT_Quantity"))
-	Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_Password"))
+	Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_SafePayPassword"))
 	Call AOS_Logoff ()
 Next
 
@@ -101,6 +101,7 @@ End Function
 Function AOS_Logoff ()
 		'Logoff from AOS
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu_2").Click @@ script infofile_;_ZIP::ssf15.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("Sign out").Highlight
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("Sign out").Click @@ script infofile_;_ZIP::ssf16.xml_;_
 		Wait (3)
 		'Close Browser
@@ -115,11 +116,13 @@ Function AddProductToCart (varQuantity)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("rabbit").Click @@ script infofile_;_ZIP::ssf19.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("quantity").Set varQuantity @@ script infofile_;_ZIP::ssf20.xml_;_
 		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("save_to_cart").Highlight
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("save_to_cart").Click	
 End Function
 
 Function CheckoutAndRetrieveOrderNumber (varUsername, varPassword)
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("ShoppingCart").Click
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("check_out_btn").Highlight
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("check_out_btn").Click @@ script infofile_;_ZIP::ssf23.xml_;_
 		Wait (3)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("next_btn").Click @@ script infofile_;_ZIP::ssf24.xml_;_
@@ -127,8 +130,10 @@ Function CheckoutAndRetrieveOrderNumber (varUsername, varPassword)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("safepay_username").Set varUsername @@ script infofile_;_ZIP::ssf30.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("safepay_password").SetSecure varPassword @@ script infofile_;_ZIP::ssf26.xml_;_
 		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("pay_now_btn_SAFEPAY").Highlight
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("pay_now_btn_SAFEPAY").Click @@ script infofile_;_ZIP::ssf27.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("Thank you for buying with").Check CheckPoint("Thank you for buying with Advantage")
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("orderNumberLabel").Highlight
 		VarOrderNumber = Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("orderNumberLabel").GetROProperty ("innertext")
 		'These codes are included to save the data into the respective sheets
 		Set xlSheet = nothing
