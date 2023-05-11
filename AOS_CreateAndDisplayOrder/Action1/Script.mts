@@ -42,25 +42,15 @@ xlObj.Quit
 
 For intcurrentRow = 2 to Environment.Value("AllRows")
 
-Call AOS_Login (
-
-		RunAction "Action1 [SAPLogon]", oneIteration,intcurrentRow,RunStatusLogin
-			If  RunStatusLogin = "PASS" Then		
-				RunAction "Action1 [VA01_CreateSalesOrder]", oneIteration, intcurrentRow,RunStatusCreateSO
-			End If
-			If  RunStatusCreateSO = "PASS" Then				
-				RunAction "Action1 [VA03_DisplaySalesOrder]", oneIteration, intcurrentRow,RunStatusDisplay
-			End If
-		RunAction "Action1 [SAPLogOff]", oneIteration
-
+Call AOS_Login (GetColValue("DT_Browser"), GetColVal("DT_Url"),GetColVal("DT_Username"), GetColVal("DT_Password"))
+Call AOS_Logoff ()
 Next
 
 '*******************************************************************************End of Script******************************************************************************************
 
  'Function Name  GetColValue
-         'Description  : Returns column no. based on column name
-
-		 Public Function GetColValue(stringCN)
+  'Description  : Returns column no. based on column name
+ Public Function GetColValue(stringCN)
 			intColumnCnt=xlSheet.usedrange.Entirecolumn.count
             For i = 1 to intColumnCnt
 				If (stringCN = xlSheet.Cells(1,i).value) Then
@@ -69,12 +59,11 @@ Next
 					Else
 						Reporter.ReportEvent micFail,"Input Data Validation", stringCN & " Value in datasheet  is empty " 
 					End If					
-                    Exit for
+                    			Exit for
 				End If
 			Next
-		 End Function
+End Function
 '--------------------------------------------------------------------------------------------------------------------------
-
 '===================================================================================
 ' Function Name: SetXLVal
 ' Description  : To set Value to XL sheet
@@ -82,14 +71,13 @@ Next
 Function SetXLVal(ColumnName,RowNo,CellValue)
  intColumnCnt=xlSheet.usedrange.Entirecolumn.count
  For i = 1 to intColumnCnt
-  If (ColumnName = cstr(xlSheet.Cells(1,i).value)) Then
-   ColValue = i
-   Exit for
-  End If
+	  If (ColumnName = cstr(xlSheet.Cells(1,i).value)) Then
+	   ColValue = i
+	   Exit for
+	  End If
  Next
  xlSheet.Cells(RowNo,ColValue)=CellValue
-end Function
-
+End Function
 
 Function AOS_Login (Browser, URL, Username, Password)
 		'Launch AOS URL in specified browser
@@ -102,6 +90,15 @@ Function AOS_Login (Browser, URL, Username, Password)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("password").SetSecure Password @@ script infofile_;_ZIP::ssf13.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("sign_in_btnundefined").Click @@ script infofile_;_ZIP::ssf14.xml_;_
 		Wait (3)
+End Function
+
+Function AOS_Logoff ()
+		'Logoff from AOS
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu_2").Click @@ script infofile_;_ZIP::ssf15.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("Sign out").Click @@ script infofile_;_ZIP::ssf16.xml_;_
+		Wait (3)
+		'Close Browser
+		Browser("Advantage Shopping").Close
 End Function
 
 
