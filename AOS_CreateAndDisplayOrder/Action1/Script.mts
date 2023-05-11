@@ -16,15 +16,16 @@
 
 '####################################################################################################################################
 
-' To close all the excels sheets present in the system
+' To close all the excels sheets and browser present in the system
 SystemUtil.CloseProcessByName("Excel.exe")
+SystemUtil.CloseProcessByName("Chrome.exe")
 
 ' Run  QTP  in minimize mode
 Set QtApp = CreateObject("QuickTest.Application") 
 QtApp.WindowState = "Minimized"
 
 'Execute Library Function file
-LoadFunctionLibrary ("C:\Users\demo\Documents\UFT One\HybridFramework\FunctionLibrary.qfl")
+'LoadFunctionLibrary ("C:\Users\demo\Documents\UFT One\HybridFramework\FunctionLibrary.qfl")
 
 'Give the path of the Data file
 Environment.Value("strFilePath") =  "C:\Users\demo\Documents\UFT One\DXC_Training\DataSheet\CreateAndDisplayOrders.xlsx" 
@@ -37,14 +38,15 @@ Set xlObj = CreateObject("Excel.Application")
 
 Environment.Value("AllRows") = xlSheet.UsedRange.Rows.Count
 
-xlWB.Save
-xlObj.Quit
-
 For intcurrentRow = 2 to Environment.Value("AllRows")
 
-Call AOS_Login (GetColValue("DT_Browser"), GetColVal("DT_Url"),GetColVal("DT_Username"), GetColVal("DT_Password"))
+Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
 Call AOS_Logoff ()
+
 Next
+
+xlWB.Save
+xlObj.Quit
 
 '*******************************************************************************End of Script******************************************************************************************
 
@@ -79,16 +81,20 @@ Function SetXLVal(ColumnName,RowNo,CellValue)
  xlSheet.Cells(RowNo,ColValue)=CellValue
 End Function
 
-Function AOS_Login (Browser, URL, Username, Password)
+Function AOS_Login (varBrowser, varURL, varUsername, VarPassword)
+		'Dim varBrowser, varURL, varUsername, VarPassword
 		'Launch AOS URL in specified browser
-		SystemUtil.Run Browser, URL
+		SystemUtil.Run varBrowser, varURL
 		'Maximize Browser
-		Browser("title:=Advantage Shopping").Maximize     
+		Browser("title:=Advantage Shopping").Maximize()
+		Wait (3)
 		'Login
-		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu").Click @@ script infofile_;_ZIP::ssf11.xml_;_
-		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("username").Set Username @@ script infofile_;_ZIP::ssf12.xml_;_
-		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("password").SetSecure Password @@ script infofile_;_ZIP::ssf13.xml_;_
-		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("sign_in_btnundefined").Click @@ script infofile_;_ZIP::ssf14.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu").Click() @@ script infofile_;_ZIP::ssf11.xml_;_
+		Wait(4)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("username").Set varUsername @@ script infofile_;_ZIP::ssf12.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("password").SetSecure VarPassword @@ script infofile_;_ZIP::ssf13.xml_;_
+		Wait (3)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebButton("sign_in_btnundefined").Click() @@ script infofile_;_ZIP::ssf14.xml_;_
 		Wait (3)
 End Function
 

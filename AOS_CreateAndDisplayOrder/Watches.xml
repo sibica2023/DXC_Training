@@ -1,0 +1,5 @@
+﻿<Properties>
+  <WatchEntry0 value="Environment.Value(&quot;AllRows&quot;)" />
+  <WatchEntry1 value="GetColValue(&quot;DT_Browser&quot;)" />
+  <WatchEntry2 value="GetColVal(&quot;DT_Url&quot;)" />
+</Properties>
