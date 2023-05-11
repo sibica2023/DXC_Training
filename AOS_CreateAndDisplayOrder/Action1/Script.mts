@@ -53,7 +53,7 @@ xlObj.Quit
 
  'Function Name  GetColValue
   'Description  : Returns column no. based on column name
- Public Function GetColValue(stringCN)
+  Function GetColValue(stringCN)
 			intColumnCnt=xlSheet.usedrange.Entirecolumn.count
             For i = 1 to intColumnCnt
 				If (stringCN = xlSheet.Cells(1,i).value) Then
