@@ -42,6 +42,7 @@ For intcurrentRow = 2 to Environment.Value("AllRows")
 	Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
 	Call AddProductToCart (GetColValue("DT_Quantity"))
 	Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_SafePayPassword"))
+	Call DisplayOrder (GetColValue("DT_OrderNumber"))
 	Call AOS_Logoff ()
 Next
 
@@ -144,9 +145,23 @@ Function CheckoutAndRetrieveOrderNumber (varUsername, varPassword)
 				 Exit For 
 		     End If 
 		Next 
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("HOME").Click
 End Function
+ @@ script infofile_;_ZIP::ssf37.xml_;_
+ Function DisplayOrder (varOrderNumber)
+ 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu_2").Click
+ 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("My orders").Highlight
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("My orders").Click @@ script infofile_;_ZIP::ssf39.xml_;_
+		Wait (2) @@ script infofile_;_ZIP::ssf41.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("menuSearch").Click @@ script infofile_;_ZIP::ssf42.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("Search in orders").Set varOrderNumber @@ script infofile_;_ZIP::ssf43.xml_;_
+		Wait (2)
+		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("Tablet").Highlight @@ script infofile_;_ZIP::ssf45.xml_;_
+		Browser("Advantage Shopping").Page("Advantage Shopping").Link("HOME").Click
+ End Function
+ @@ script infofile_;_ZIP::ssf40.xml_;_
 
- @@ script infofile_;_ZIP::ssf21.xml_;_
+
 
 
 
