@@ -153,11 +153,11 @@ End Function
  		Browser("Advantage Shopping").Page("Advantage Shopping").Link("My orders").Highlight
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("My orders").Click @@ script infofile_;_ZIP::ssf41.xml_;_
 		Wait (2)
-		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("menuSearch").Click
+		'Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("menuSearch").Click
 		'Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("menuSearch").Click @@ script infofile_;_ZIP::ssf48.xml_;_
-		Wait (2)
-		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("Search in orders").Set varOrderNumber @@ script infofile_;_ZIP::ssf43.xml_;_
-		Wait (2)
+		'Wait (2)
+		'Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("Search in orders").Set varOrderNumber @@ script infofile_;_ZIP::ssf43.xml_;_
+		'Wait (2)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebElement("Tablet").Highlight @@ script infofile_;_ZIP::ssf45.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("HOME").Click
  End Function
