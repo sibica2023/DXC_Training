@@ -39,12 +39,10 @@ Set xlObj = CreateObject("Excel.Application")
 Environment.Value("AllRows") = xlSheet.UsedRange.Rows.Count
 
 For intcurrentRow = 2 to Environment.Value("AllRows")
-
-Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
-Call AOS_Logoff ()
-Call AddProductToCart (GetColValue("DT_Quantity"))
-Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_Password"))
-
+	Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
+	Call AddProductToCart (GetColValue("DT_Quantity"))
+	Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_Password"))
+	Call AOS_Logoff ()
 Next
 
 xlWB.Save
@@ -89,10 +87,10 @@ Function AOS_Login (varBrowser, varURL, varUsername, VarPassword)
 		SystemUtil.Run varBrowser, varURL
 		'Maximize Browser
 		Browser("title:=Advantage Shopping").Maximize()
-		Wait (3)
+		Wait (2)
 		'Login
 		Browser("Advantage Shopping").Page("Advantage Shopping").Link("UserMenu").Click() @@ script infofile_;_ZIP::ssf11.xml_;_
-		Wait(4)
+		Wait(2)
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("username").Set varUsername @@ script infofile_;_ZIP::ssf12.xml_;_
 		Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("password").SetSecure VarPassword @@ script infofile_;_ZIP::ssf13.xml_;_
 		Wait (3)
