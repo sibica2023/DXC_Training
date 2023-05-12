@@ -39,11 +39,13 @@ Set xlObj = CreateObject("Excel.Application")
 Environment.Value("AllRows") = xlSheet.UsedRange.Rows.Count
 
 For intcurrentRow = 2 to Environment.Value("AllRows")
+
 	Call AOS_Login (GetColValue("DT_Browser"), GetColValue("DT_Url"),GetColValue("DT_Username"), GetColValue("DT_Password"))
 	Call AddProductToCart (GetColValue("DT_Quantity"))
 	Call CheckoutAndRetrieveOrderNumber (GetColValue("DT_Username"), GetColValue("DT_SafePayPassword"))
 	Call DisplayOrder (GetColValue("DT_OrderNumber"))
 	Call AOS_Logoff ()
+	
 Next
 
 xlWB.Save
