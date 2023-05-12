@@ -1,6 +1,6 @@
 ﻿'##################################################################################################################################
 'Project Name : AOS 
-'File Name: Create and display  order
+'File Name: Create and display order
 'Description:This end to end scenario is used to create and display orders in AOS application
 'Developed  by/Date: Sibi C A/ 10-May-2023
 'Version No:0.1
